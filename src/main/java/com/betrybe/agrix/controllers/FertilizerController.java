@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/fertilizers")
 public class FertilizerController {
+
   private final FertilizerService fertilizerService;
 
   /**
@@ -53,12 +55,13 @@ public class FertilizerController {
    *
    * @return the fertilizer
    */
+  @Secured("ADMIN")
   @GetMapping()
   public ResponseEntity<List<FertilizerDto>> getFertilizer() {
     List<Fertilizer> allFertilizers = fertilizerService.getFertilizers();
     List<FertilizerDto> fertilizersDtos = allFertilizers.stream()
         .map(fertilizer -> new FertilizerDto(fertilizer.getId(),
-        fertilizer.getName(), fertilizer.getBrand(),
+            fertilizer.getName(), fertilizer.getBrand(),
             fertilizer.getComposition())).toList();
     return ResponseEntity.status(HttpStatus.OK).body(fertilizersDtos);
   }
