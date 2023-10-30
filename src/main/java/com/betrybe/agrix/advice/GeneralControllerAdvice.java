@@ -95,7 +95,7 @@ public class GeneralControllerAdvice {
   @ExceptionHandler(Exception.class)
   public ResponseEntity<String> handleException(Exception exception) {
     return ResponseEntity
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .status(HttpStatus.FORBIDDEN)
         .body("Erro interno!");
   }
 }
