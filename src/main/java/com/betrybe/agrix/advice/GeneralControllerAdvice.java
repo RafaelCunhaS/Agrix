@@ -3,6 +3,8 @@ package com.betrybe.agrix.advice;
 import com.betrybe.agrix.exceptions.CropNotFoundException;
 import com.betrybe.agrix.exceptions.FarmNotFoundException;
 import com.betrybe.agrix.exceptions.FertilizerNotFoundException;
+import com.betrybe.agrix.exceptions.PersonAlreadyExistsException;
+import com.betrybe.agrix.exceptions.PersonNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -54,6 +56,34 @@ public class GeneralControllerAdvice {
     return ResponseEntity
         .status(HttpStatus.NOT_FOUND)
         .body("Fertilizante não encontrado!");
+  }
+
+  /**
+   * Handle person not found exception response entity.
+   *
+   * @param e the e
+   * @return the response entity
+   */
+  @ExceptionHandler(PersonNotFoundException.class)
+  public ResponseEntity<String> handlePersonNotFoundException(
+      PersonNotFoundException e) {
+    return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .body("Pessoa não encontrada!");
+  }
+
+  /**
+   * Handle person already exists exception response entity.
+   *
+   * @param e the e
+   * @return the response entity
+   */
+  @ExceptionHandler(PersonAlreadyExistsException.class)
+  public ResponseEntity<String> handlePersonAlreadyExistsException(
+      PersonAlreadyExistsException e) {
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body("Não foi possível cadastrar, nome de usuário já existe!");
   }
 
   /**
